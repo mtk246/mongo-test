@@ -22,6 +22,7 @@ test-job:
     - echo "$ENV_FILE" > .env
     - apk add make
     - npm install jest -g
+    - npm install
   script:
     - make -B test 
 
