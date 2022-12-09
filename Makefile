@@ -1,6 +1,4 @@
-include .env
-export
-
+#!make
 SHELL:=/bin/bash
 
 test:
