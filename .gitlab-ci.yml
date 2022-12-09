@@ -19,7 +19,6 @@ test-job:
   tags:
     - docker
   before_script:
-    - echo "$ENV_FILE" > .env
     - apk add make
     - npm install jest -g
     - npm install
