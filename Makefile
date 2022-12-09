@@ -1,5 +1,4 @@
 #!make
-SHELL:=/bin/bash
 
 test:
 	npm run lint
