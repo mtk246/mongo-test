@@ -8,7 +8,7 @@ services:
       - server
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.*.rule=Host(`ops-${CI_COMMIT_BRANCH}.khitkabar.xyz`) && PathPrefix(`${ROUTE}`)"
+      - "traefik.http.routers.${CI_PROJECT_NAME}-${CI_COMMIT_BRANCH}.rule=PathPrefix(`${ROUTE}`)"
       #- "traefik.http.routers.ops-${CI_COMMIT_BRANCH}.entrypoints=web"
       #- "traefik.http.services.traefik.loadbalancer.server.port=8000"
 

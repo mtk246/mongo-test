@@ -14,12 +14,11 @@ setPgTypes();
 // Connect PG Connection
 pg_connect();
 
-const BASE_ROUTE = process.env.BASE_ROUTE;
 const SERVER_PORT = process.env.SERVER_PORT | 8000;
 app.use(log_middleware);
 
 app.use(bodyParser.json());
-app.use(BASE_ROUTE, api_router);
+app.use("/node", api_router);
 
 app.use(errorHandler);
 
