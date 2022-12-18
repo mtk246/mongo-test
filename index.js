@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const { pg_connect } = require("./src/config/pg_connection");
 const { setPgTypes } = require("./src/helper/pg_types");
+const {  verifyAccess } = require("./src/middlewares/auth_middleware");
 const { errorHandler } = require("./src/middlewares/error_middlware");
 const { log_middleware } = require("./src/middlewares/log_middlware");
 const { api_router } = require("./src/routes/routes");
@@ -18,7 +19,7 @@ const SERVER_PORT = process.env.SERVER_PORT | 8000;
 app.use(log_middleware);
 
 app.use(bodyParser.json());
-app.use("/node", api_router);
+app.use("/node",verifyAccess, api_router);
 
 app.use(errorHandler);
 
