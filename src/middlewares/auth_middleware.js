@@ -1,39 +1,25 @@
-exports.verifyAccess = async (req, res, next) => {
-  
-  const token = req.headers["authorization"];
-  if (!token) {
-    return res.status(403).json({
-      message: "Please login to access this resource.",
-    });
-  }
+const { default: axios } = require("axios");
+
+exports.authCheck = async (req,res,next)=> {
+  let result;
   try {
-    const rawResponse = await fetch(
-        process.env.SERVER_BASE_URL + "/auth/check",
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            Authorization: req.headers["authorization"],
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            route: req._parsedUrl.pathname,
-            method: req.method,
-          }),
-        }
-      );
-      if (rawResponse.status == 200) {
-        req.user = (await rawResponse.json()).user
-        console.log("User ",req.user)
-        next();
-      } else {
-        return res.status(403).json({
-          message: (await rawResponse.json()).message
-        });
-      }
-  } catch (e) {
+    
+    result = await axios.post(process.env.SERVER_BASE_URL+"/user/permission/check",{
+      "route": req._parsedUrl.pathname,
+      "method": req.method
+    },{
+      headers: { Authorization: req.get("authorization"), 'Content-Type': 'application/json' }
+    })
+    if(result.status==200) {
+
+      req.user = result.data.user
+      console.log("User is ", req.user)
+      return next()
+    } 
+    return res.status(403).json(result.data)
+  } catch(e) {
     return res.status(403).json({
-        message: e.message,
-    });
-  }
-};
+      message: "Permission Check :: " + e.message
+    })
+  } 
+}
