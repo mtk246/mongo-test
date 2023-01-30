@@ -1,5 +1,6 @@
+
 const { default: knex } = require("knex");
-const DbDataTbl = require("../models/super.public/DbDataTbl");
+const DbDataTbl = require("../models/super/DbDataTbl");
 
 const knexCache = new Map();
 

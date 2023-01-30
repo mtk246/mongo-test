@@ -18,8 +18,9 @@ exports.authCheck = async (req,res,next)=> {
     } 
     return res.status(403).json(result.data)
   } catch(e) {
+    console.log(e)
     return res.status(403).json({
-      message: "Permission Check :: " + e.message
+      message: "Permission Check :: " + e.response?.data?.message || e.message
     })
   } 
 }

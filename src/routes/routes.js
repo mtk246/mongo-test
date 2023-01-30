@@ -11,7 +11,6 @@ router.use(tenantMiddleware)  // get knex connection for each api endpoint.
 
 
 router.get("/" ,helloHandler.hello); // Hello Route
-//router.get("/gen", helloHandler.gen); 
-
+router.get("/example",helloHandler.exampleRaQuery) // raw query example
 
 exports.api_router = router;
