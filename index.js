@@ -1,27 +1,21 @@
-const bodyParser = require("body-parser");
 const express = require("express");
 const app = express();
-const { pg_connect } = require("./src/config/pg_connection");
-const { setPgTypes } = require("./src/helper/pg_types");
-const { errorHandler } = require("./src/middlewares/error_middlware");
-const { log_middleware } = require("./src/middlewares/log_middlware");
-const { api_router } = require("./src/routes/routes");
+const mongoose = require("mongoose");
 
 // Config Env
 require("dotenv").config();
-/* Set PG Types , So, Integer will not be string */
-setPgTypes();
-// Connect PG Connection
-pg_connect();
 
 const SERVER_PORT = process.env.SERVER_PORT | 8000;
-app.use(log_middleware);
 
-app.use(bodyParser.json());
-app.use("/node", api_router);
-
-app.use(errorHandler);
-
-app.listen(SERVER_PORT, () => {
-  console.log(`Server Listening At :${SERVER_PORT}`);
+app.get('/', (req, res) => {
+  res.send('Hello World!')
 });
+
+mongoose.set('strictQuery', true);
+
+mongoose.connect(process.env.MONGO_ATLAS_URL)
+  .then(() => {
+    app.listen(SERVER_PORT, () => {
+      console.log(`Server Listening At :${SERVER_PORT}`);
+    });
+})
